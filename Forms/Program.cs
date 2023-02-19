@@ -59,7 +59,7 @@ namespace Forms
 
             double a = dot(ray_dir, ray_dir);
             double b = 2.0f * dot(ray_dir, ray_origin);
-            double c = dot(ray_dir, ray_origin) - (s.radius * s.radius);
+            double c = dot(ray_origin, ray_origin) - (s.radius * s.radius);
             // quadratic formula discriminant
             // b^2 - 4ac
 
@@ -75,7 +75,7 @@ namespace Forms
         public static void loop(ref System.Drawing.Bitmap bitmap)
         {
             vec3 camgirl = new vec3();
-            camgirl.x = 400; camgirl.y = 300; camgirl.z = 100;
+            camgirl.x = 0; camgirl.y = 0; camgirl.z = -1;
             sphere s = new sphere();
             s.pos.x = 0;
             s.pos.y = 0;
@@ -89,10 +89,10 @@ namespace Forms
             {
                 for (int x = 1; x < 800; x++)
                 {
-                    ray_dir.x = x;
-                    ray_dir.y = y;
+                    ray_dir.x = ((double)x / 600) * 2 - 1;
+                    ray_dir.y = ((double)y / 600) * 2 - 1;
                     ray_dir.z = -1.0f;
-                    bitmap.SetPixel(x,y, System.Drawing.Color.FromArgb((int)sphere_intersect(camgirl, ray_dir, ref s)));
+                    bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb((int)sphere_intersect(camgirl, ray_dir, ref s)));
                 }
             }
         }
