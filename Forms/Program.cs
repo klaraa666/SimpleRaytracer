@@ -54,9 +54,7 @@ namespace Forms
             //(bx^2 + by^2)t^2 + (2(axbx + ayby))t + (ax^2 + ay^2 - r^2) = 0
             // a = rayorgin 
             // b = ray direction
-            // r = radius
-            // t = hitdistance
-
+         
             double a = dot(ray_dir, ray_dir);
             double b = 2.0f * dot(ray_dir, ray_origin);
             double c = dot(ray_origin, ray_origin) - (s.radius * s.radius);
