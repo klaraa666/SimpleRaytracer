@@ -61,7 +61,7 @@ namespace Forms
             this.emission = e;
         }
     }
-    
+
     internal static class Program
     {
         [STAThread]
@@ -76,28 +76,48 @@ namespace Forms
             //(bx^2 + by^2)t^2 + (2(axbx + ayby))t + (ax^2 + ay^2 - r^2) = 0
             // a = rayorgin 
             // b = ray direction
-         
+            // r = radius
+            // t = hitdistance
+
             double a = dot(ray_dir, ray_dir);
             double b = 2.0f * dot(ray_dir, ray_origin);
             double c = dot(ray_origin, ray_origin) - (s.radius * s.radius);
             // quadratic formula discriminant
             // b^2 - 4ac
 
+            // (-b +- sqrt(discriminant) /2a)
+
             double discriminant = b * b - 4.0f * a * c;
             vec4 color = new vec4();
-            if (discriminant >= 0.0f)
+            if (discriminant <= 0.0f)
             {
-                color.r = 1;
-                color.g = 1;
-                color.b = 1;
+                color.r = 0;
+                color.g = 0;
+                color.b = 0;
                 color.a = 1;
                 return color;
             }
-            color.r = 0;
-            color.g = 0;
-            color.b = 0;
-            color.a = 1;
-            return color;
+
+            double t0 = (-b + Math.Sqrt(discriminant)) / (2 * a);
+            double closestT = (-b - Math.Sqrt(discriminant)) / (2 * a);
+
+            vec3 h0 = new vec3();
+            h0.x = ray_origin.x + ray_dir.x * t0;
+            h0.y = ray_origin.y + ray_dir.y * t0;   
+            h0.z = ray_origin.z + ray_dir.z * t0;
+            vec3 h1 = new vec3();
+            h1.x = ray_origin.x + ray_dir.x * closestT;
+            h1.y = ray_origin.y + ray_dir.y * closestT;
+            h1.z = ray_origin.z + ray_dir.z * closestT;
+
+
+            vec4 sphereColor = new vec4();
+            sphereColor.r = h1.x;
+            sphereColor.g = h1.y;
+            sphereColor.b = h1.z;
+            sphereColor.a = 1;
+
+            return sphereColor;
         }
 
 
