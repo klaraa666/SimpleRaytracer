@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-  
+
 
 namespace Forms
 {
-
 
     public class vec3
     {
@@ -27,6 +26,7 @@ namespace Forms
             }
         }
     }
+
     public class vec4
     {
         public double r; public double g; public double b; public double a;
@@ -38,12 +38,13 @@ namespace Forms
             uint blue = (uint)(b * 255);
             uint alpha = (uint)(a * 255);
 
-            uint result = (alpha << 24) | (blue << 16) | (green << 8) | red;
+            uint result = (alpha << 24) | (red << 16) | (green << 8) | blue;
             return result;
         }
 
 
     }
+
     public class sphere
     {
         public vec3 pos = new vec3(); // position
@@ -103,7 +104,7 @@ namespace Forms
 
             vec3 h0 = new vec3();
             h0.x = ray_origin.x + ray_dir.x * t0;
-            h0.y = ray_origin.y + ray_dir.y * t0;   
+            h0.y = ray_origin.y + ray_dir.y * t0;
             h0.z = ray_origin.z + ray_dir.z * t0;
             vec3 h1 = new vec3();
             h1.x = ray_origin.x + ray_dir.x * closestT;
@@ -112,9 +113,9 @@ namespace Forms
 
 
             vec4 sphereColor = new vec4();
-            sphereColor.r = h1.x;
-            sphereColor.g = h1.y;
-            sphereColor.b = h1.z;
+            sphereColor.r = 0.5 - h1.x;
+            sphereColor.g = 0.5 - h1.y;
+            sphereColor.b = 0.5 - h1.z;
             sphereColor.a = 1;
 
             return sphereColor;
@@ -137,7 +138,7 @@ namespace Forms
             s.emission = 0x0;
 
             vec3 ray_dir = new vec3();
-            
+
             for (int y = 1; y < 600; y++)
             {
                 for (int x = 1; x < 800; x++)
@@ -145,7 +146,7 @@ namespace Forms
                     ray_dir.x = ((double)x / 600) * 2 - 1;
                     ray_dir.y = ((double)y / 600) * 2 - 1;
                     ray_dir.z = -1.0f;
-                    bitmap.SetPixel(x, y,(System.Drawing.Color)System.Drawing.Color.FromArgb((int)sphere_intersect(camera, ray_dir, ref s).ConvertToRGBA()));
+                    bitmap.SetPixel(x, y, (System.Drawing.Color)System.Drawing.Color.FromArgb((int)sphere_intersect(camera, ray_dir, ref s).ConvertToRGBA()));
                 }
             }
         }
